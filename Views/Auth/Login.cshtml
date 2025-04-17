@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+<h2>Login</h2>
+
+@Html.ValidationSummary("", new { @class = "text-danger" })
+
+<form asp-action="Login" method="post">
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input name="email" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Senha</label>
+        <input name="senha" type="password" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Entrar</button>
+</form>

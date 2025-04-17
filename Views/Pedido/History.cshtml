@@ -1,0 +1,33 @@
+﻿@model IEnumerable<SistemaRestaurante.Models.PedidoModel>
+
+@{
+    ViewData["Title"] = "Histórico de Pedidos";
+}
+
+<h2>Histórico de Pedidos (Entregues)</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Solicitante</th>
+            <th>Mesa</th>
+            <th>Itens</th>
+            <th>Quantidade</th>
+            <th>Data Entrega</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pedido in Model)
+        {
+            <tr>
+                <td>@pedido.Id</td>
+                <td>@pedido.NomeSolicitante</td>
+                <td>@pedido.Mesa</td>
+                <td>@string.Join(", ", pedido.Itens.Select(i => i.Produto.Nome))</td>
+                <td>@pedido.Itens.Sum(i => i.Quantidade)</td>
+                <td>@pedido.DataHora.ToString("dd/MM/yyyy HH:mm")</td>
+            </tr>
+        }
+    </tbody>
+</table>

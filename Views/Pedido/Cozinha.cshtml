@@ -1,0 +1,63 @@
+﻿@model List<SistemaRestaurante.Models.PedidoModel>
+
+@{
+    ViewData["Title"] = "Cozinha - Pedidos";
+}
+
+<h2>Pedidos de Pratos (Cozinha)</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Mesa</th>
+            <th>Solicitante</th>
+            <th>Data/Hora</th>
+            <th>Itens</th>
+            <th>Status</th>
+            <th>Ação</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pedido in Model)
+        {
+            <tr>
+                <td>@pedido.Mesa</td>
+                <td>@pedido.NomeSolicitante</td>
+                <td>@pedido.DataHora.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>
+                    <ul>
+                        @foreach (var item in pedido.Itens.Where(i => i.Produto.Tipo == "Prato"))
+                        {
+                            <li>@item.Produto.Nome - @item.Quantidade</li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    <form asp-action="AtualizarStatus" method="post" class="d-inline">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="pedidoId" value="@pedido.Id" />
+                        <select name="novoStatus"
+                                class="form-select form-select-sm"
+                                onchange="this.form.submit()">
+                            <option value="Em preparo" selected="@(pedido.Status == "Em preparo")">Em preparo</option>
+                            <option value="Pronto" selected="@(pedido.Status == "Pronto")">Pronto</option>
+                            <option value="Entregue" selected="@(pedido.Status == "Entregue")">Entregue</option>
+                        </select>
+                    </form>
+                </td>
+
+                <td>
+                    
+                    <form asp-action="Delete" method="post" class="d-inline" onsubmit="return confirm('Deseja realmente excluir este pedido?');">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@pedido.Id" />
+                        <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            <div class="mb-3">
+                <a asp-controller="Pedido" asp-action="Index" class="btn btn-success">Salvar e voltar</a>
+            </div>
+        }
+    </tbody>
+</table>

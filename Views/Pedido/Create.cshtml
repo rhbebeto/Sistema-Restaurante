@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Novo Pedido";
+}
+
+<h2>Novo Pedido</h2>
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label class="form-label">Produto</label>
+        <select name="produtoId" class="form-control" required>
+            <option value="">-- Selecione um produto --</option>
+            @foreach (var produto in ViewBag.Produtos)
+            {
+                <option value="@produto.Id">@produto.Nome (@produto.Tipo)</option>
+            }
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Quantidade</label>
+        <input type="number" name="quantidade" class="form-control" min="1" value="1" required />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Nome do Solicitante</label>
+        <input type="text" name="nomeSolicitante" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Mesa</label>
+        <input type="number" name="mesa" class="form-control" min="1" required />
+    </div>
+
+    <button type="submit" class="btn btn-success">Fazer Pedido</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
